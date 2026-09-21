@@ -1,3 +1,0 @@
-configure=failure
-upload=success
-deploy=failure
