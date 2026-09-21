@@ -21,11 +21,11 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.05;
+renderer.toneMappingExposure = 1.42;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x080b0e);
-scene.fog = new THREE.Fog(0x080b0e, 6.5, 18);
+scene.background = new THREE.Color(0x10161a);
+scene.fog = new THREE.Fog(0x10161a, 8, 20);
 
 const camera = new THREE.PerspectiveCamera(45, 1, 0.035, 100);
 camera.position.set(0, 2.2, 6.2);
@@ -41,13 +41,14 @@ controls.minDistance = 0.35;
 controls.maxDistance = 12;
 controls.target.set(0, 1.05, 0);
 
-scene.add(new THREE.HemisphereLight(0xd7e9f2, 0x241c16, 1.75));
-const key = new THREE.DirectionalLight(0xffe7c3, 3.0);
+scene.add(new THREE.HemisphereLight(0xe8f3f7, 0x4a392f, 2.4));
+scene.add(new THREE.AmbientLight(0xffffff, 1.25));
+const key = new THREE.DirectionalLight(0xffe7c3, 4.0);
 key.position.set(3.6, 6.5, 4.0);
 key.castShadow = true;
 key.shadow.mapSize.set(1024, 1024);
 scene.add(key);
-const rim = new THREE.DirectionalLight(0x6aa7c8, 1.35);
+const rim = new THREE.DirectionalLight(0x86bad4, 1.65);
 rim.position.set(-4, 3.5, -4.5);
 scene.add(rim);
 
@@ -120,13 +121,14 @@ async function applyDonorTextures(root) {
     const updated = materials.map((source) => {
       const material = source?.clone?.() || new THREE.MeshStandardMaterial();
       material.map = base;
+      material.color.setScalar(1.18);
       material.normalMap = normal;
-      material.normalScale = new THREE.Vector2(0.72, 0.72);
+      material.normalScale = new THREE.Vector2(0.52, 0.52);
       material.roughnessMap = roughness;
       material.metalnessMap = metallic;
-      material.roughness = 1;
-      material.metalness = 1;
-      material.envMapIntensity = 0.8;
+      material.roughness = 0.92;
+      material.metalness = 0.12;
+      material.envMapIntensity = 0.35;
       material.needsUpdate = true;
       return material;
     });
