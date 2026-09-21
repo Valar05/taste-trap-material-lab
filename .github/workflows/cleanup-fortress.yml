@@ -1,0 +1,22 @@
+name: Clean Fortress transport
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove temporary transport files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm -f .fortress-pages-diagnostic.txt .github/workflows/import-large-assets.yml .github/workflows/cleanup-fortress.yml
+          git config user.name "Home Center Fortress"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -m "Remove Fortress transport artifacts"
+          git push
