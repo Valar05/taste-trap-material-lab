@@ -105,11 +105,11 @@ function loadTexture(url, color = false) {
   });
 }
 
-async function applyDonorTextures(root) {
+async function applyMarsTextures(root) {
   const [base, normal, roughness, metallic] = await Promise.all([
-    loadTexture('./assets/fps-arms-basecolor.png', true),
+    loadTexture('./assets/mars-eva-basecolor.png', true),
     loadTexture('./assets/fps-arms-normal.png'),
-    loadTexture('./assets/fps-arms-roughness.png'),
+    loadTexture('./assets/mars-eva-roughness.png'),
     loadTexture('./assets/fps-arms-metallic.png')
   ]);
 
@@ -121,14 +121,14 @@ async function applyDonorTextures(root) {
     const updated = materials.map((source) => {
       const material = source?.clone?.() || new THREE.MeshStandardMaterial();
       material.map = base;
-      material.color.setScalar(1.18);
+      material.color.setScalar(1.0);
       material.normalMap = normal;
       material.normalScale = new THREE.Vector2(0.52, 0.52);
       material.roughnessMap = roughness;
       material.metalnessMap = metallic;
-      material.roughness = 0.92;
-      material.metalness = 0.12;
-      material.envMapIntensity = 0.35;
+      material.roughness = 1.0;
+      material.metalness = 0.04;
+      material.envMapIntensity = 0.42;
       material.needsUpdate = true;
       return material;
     });
@@ -240,7 +240,7 @@ function loadModel() {
       model = gltf.scene;
       clips = gltf.animations || [];
       hideNonArmHelpers(model);
-      await applyDonorTextures(model);
+      await applyMarsTextures(model);
       scene.add(model);
       groundAndFrame(model);
       cameraBone = findNamed(model, ['Camera']);
