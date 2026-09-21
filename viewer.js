@@ -9,7 +9,7 @@ const firstPersonButton = document.querySelector('#firstPerson');
 const thirdPersonButton = document.querySelector('#thirdPerson');
 const resetButton = document.querySelector('#resetView');
 const turntableButton = document.querySelector('#turntable');
-const poseSelect = document.querySelector('#pose');
+const uiToggle = document.querySelector('#uiToggle');
 const viewLabel = document.querySelector('#viewLabel');
 const errorPanel = document.querySelector('#error');
 const errorDetail = document.querySelector('#errorDetail');
@@ -216,19 +216,13 @@ function choosePose(name) {
   mixer.update(0);
 }
 
-function populatePoses() {
+function applyInspectionPose() {
   const preferredNames = ['FistReady', 'FistReadied', 'KnifeReady', 'KnifeReadied', 'OneHandReady', 'OneHandReadied', 'WandReady', 'WandReadied'];
   const preferred = preferredNames
     .map((name) => clips.find((clip) => clip.name === name))
     .filter(Boolean);
-  poseSelect.replaceChildren();
-  const rest = new Option('Model pose', '__rest__');
-  poseSelect.add(rest);
-  for (const clip of preferred) poseSelect.add(new Option(clip.name.replace(/([a-z])([A-Z])/g, '$1 $2'), clip.name));
-  poseSelect.disabled = false;
   const initial = preferred.find((clip) => /FistReadied|FistReady/.test(clip.name)) || preferred[0];
-  poseSelect.value = initial?.name || '__rest__';
-  choosePose(poseSelect.value);
+  choosePose(initial?.name || '__rest__');
 }
 
 function hideNonArmHelpers(root) {
@@ -251,7 +245,7 @@ function loadModel() {
       groundAndFrame(model);
       cameraBone = findNamed(model, ['Camera']);
       mixer = clips.length ? new THREE.AnimationMixer(model) : null;
-      populatePoses();
+      applyInspectionPose();
       firstPersonButton.disabled = !cameraBone;
       setStatus(cameraBone ? 'Arms ready' : 'Arms ready · no camera bone', 'ready');
       setView('thirdPerson');
@@ -287,7 +281,11 @@ turntableButton.addEventListener('click', () => {
   controls.autoRotate = turntable;
   controls.autoRotateSpeed = 1.25;
 });
-poseSelect.addEventListener('change', () => choosePose(poseSelect.value));
+uiToggle.addEventListener('click', () => {
+  const hidden = document.body.classList.toggle('ui-hidden');
+  uiToggle.textContent = hidden ? 'Show UI' : 'Hide UI';
+  uiToggle.setAttribute('aria-pressed', String(hidden));
+});
 retryButton.addEventListener('click', () => window.location.reload());
 window.addEventListener('resize', resize);
 
