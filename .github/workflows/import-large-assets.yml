@@ -11,18 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch source-locked assets
+      - name: Reassemble source-locked assets
         shell: bash
         run: |
           set -euo pipefail
-          base="https://taste-trap-material-lab.dclarke1005.chatgpt.site"
           mkdir -p assets vendor/three/build
-          curl --fail --location --retry 4 "$base/assets/FPSPlayer.glb" -o assets/FPSPlayer.glb
-          curl --fail --location --retry 4 "$base/assets/fps-arms-basecolor.png" -o assets/fps-arms-basecolor.png
-          curl --fail --location --retry 4 "$base/assets/fps-arms-metallic.png" -o assets/fps-arms-metallic.png
-          curl --fail --location --retry 4 "$base/assets/fps-arms-normal.png" -o assets/fps-arms-normal.png
-          curl --fail --location --retry 4 "$base/assets/fps-arms-roughness.png" -o assets/fps-arms-roughness.png
-          curl --fail --location --retry 4 "$base/vendor/three/build/three.core.js" -o vendor/three/build/three.core.js
+          cat .fortress-parts/assets__FPSPlayer.glb.*.part > assets/FPSPlayer.glb
+          cat .fortress-parts/assets__fps-arms-basecolor.png.*.part > assets/fps-arms-basecolor.png
+          cat .fortress-parts/assets__fps-arms-metallic.png.*.part > assets/fps-arms-metallic.png
+          cat .fortress-parts/assets__fps-arms-normal.png.*.part > assets/fps-arms-normal.png
+          cat .fortress-parts/assets__fps-arms-roughness.png.*.part > assets/fps-arms-roughness.png
+          cat .fortress-parts/vendor__three__build__three.core.js.*.part > vendor/three/build/three.core.js
           sha256sum --check <<'EOF'
           e3cd9a6a1a18dc2f606d39c46fea4ecdc88b983f5bc4538ef164d4bf5efee20c  assets/FPSPlayer.glb
           deffe6a8ae246693bd0cc657f8f2bf94b243d89a847f05874576723f32257dbf  assets/fps-arms-basecolor.png
@@ -38,6 +37,7 @@ jobs:
           git config user.name "Home Center Fortress"
           git config user.email "actions@users.noreply.github.com"
           git add assets vendor/three/build/three.core.js
+          git rm -r .fortress-parts
           git diff --cached --quiet && exit 0
           git commit -m "Import verified model and texture assets"
           git push
