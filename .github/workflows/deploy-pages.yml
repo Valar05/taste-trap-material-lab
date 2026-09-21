@@ -22,13 +22,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - id: configure
+        continue-on-error: true
+        uses: actions/configure-pages@v5
         with:
           enablement: true
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-pages-artifact@v3
+      - id: upload
+        continue-on-error: true
+        uses: actions/upload-pages-artifact@v3
         with:
           path: .
       - name: Deploy
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+      - name: Record diagnostic
+        if: always()
+        shell: bash
+        run: |
+          printf 'configure=%s\nupload=%s\ndeploy=%s\n' \
+            '${{ steps.configure.outcome }}' \
+            '${{ steps.upload.outcome }}' \
+            '${{ steps.deployment.outcome }}' > .fortress-pages-diagnostic.txt
+          git config user.name "Home Center Fortress"
+          git config user.email "actions@users.noreply.github.com"
+          git add .fortress-pages-diagnostic.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "Record Pages diagnostic"
+          git push
