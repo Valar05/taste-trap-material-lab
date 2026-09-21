@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b0e">
+  <title>Taste Trap Material Lab</title>
+  <meta name="description" content="First- and third-person material review for the FPSPlayer arms.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23080b0e'/%3E%3Cpath d='M14 40V24l18-10 18 10v16L32 50 14 40Z' fill='none' stroke='%23d79a4a' stroke-width='5'/%3E%3Cpath d='M22 28h20M22 36h20' stroke='%23e8edf0' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js",
+        "three/addons/": "./vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main id="app">
+    <canvas id="viewport" aria-label="Interactive 3D view of the FPSPlayer arms"></canvas>
+
+    <header class="topbar">
+      <div class="identity">
+        <span class="eyebrow">TASTE TRAP</span>
+        <strong>Material Lab</strong>
+      </div>
+      <div id="status" class="status" role="status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span>Loading arms</span>
+      </div>
+    </header>
+
+    <section class="view-switch" aria-label="Camera view">
+      <button id="firstPerson" type="button">First person</button>
+      <button id="thirdPerson" type="button" class="active">Third person</button>
+    </section>
+
+    <section class="inspect-panel" aria-label="Viewer controls">
+      <div class="field">
+        <label for="pose">Pose</label>
+        <select id="pose" disabled>
+          <option>Loading…</option>
+        </select>
+      </div>
+      <button id="resetView" type="button">Reset view</button>
+      <button id="turntable" type="button" aria-pressed="false">Turntable</button>
+    </section>
+
+    <footer class="readout">
+      <span id="viewLabel">THIRD PERSON</span>
+      <span>Drag to orbit · Pinch to zoom</span>
+    </footer>
+
+    <div id="error" class="error" hidden>
+      <strong>Arms failed to load.</strong>
+      <span id="errorDetail">The viewer could not read the model.</span>
+      <button id="retry" type="button">Retry</button>
+    </div>
+  </main>
+  <script type="module" src="./viewer.js"></script>
+</body>
+</html>
