@@ -21,7 +21,7 @@ html, body, #app {
 
 body { background: #080b0e; }
 
-button, select { font: inherit; }
+button { font: inherit; }
 
 button {
   min-height: 44px;
@@ -34,7 +34,7 @@ button {
 }
 
 button:hover { border-color: rgba(215, 154, 74, 0.65); }
-button:focus-visible, select:focus-visible { outline: 3px solid rgba(215, 154, 74, 0.55); outline-offset: 2px; }
+button:focus-visible { outline: 3px solid rgba(215, 154, 74, 0.55); outline-offset: 2px; }
 button.active, button[aria-pressed="true"] {
   background: var(--accent-soft);
   border-color: var(--accent);
@@ -51,6 +51,7 @@ button.active, button[aria-pressed="true"] {
 .topbar, .view-switch, .inspect-panel, .readout {
   position: fixed;
   z-index: 2;
+  transition: opacity 160ms ease, visibility 160ms ease;
 }
 
 .topbar {
@@ -115,27 +116,36 @@ button.active, button[aria-pressed="true"] {
 
 .inspect-panel {
   left: max(0.75rem, env(safe-area-inset-left));
-  bottom: max(3.9rem, calc(env(safe-area-inset-bottom) + 3.9rem));
-  display: grid;
-  grid-template-columns: minmax(10rem, 1fr) auto auto;
-  align-items: end;
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  display: flex;
   gap: 0.5rem;
-  width: min(34rem, calc(100vw - 1.5rem));
   padding: 0.6rem;
   border-radius: 12px;
 }
 
-.field { display: grid; gap: 0.25rem; }
-.field label { color: var(--muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.ui-toggle {
+  position: fixed;
+  z-index: 5;
+  top: 50%;
+  right: max(0.45rem, env(safe-area-inset-right));
+  min-width: 4.5rem;
+  min-height: 40px;
+  transform: translateY(-50%);
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(12, 16, 20, 0.72);
+  color: var(--muted);
+  font-size: 0.72rem;
+  backdrop-filter: blur(10px);
+}
 
-select {
-  width: 100%;
-  min-height: 44px;
-  border: 1px solid var(--panel-line);
-  border-radius: 9px;
-  background: #0e1317;
-  color: #e8edf0;
-  padding: 0.55rem 2rem 0.55rem 0.7rem;
+body.ui-hidden .topbar,
+body.ui-hidden .view-switch,
+body.ui-hidden .inspect-panel,
+body.ui-hidden .readout {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .readout {
@@ -174,12 +184,6 @@ select {
   .status span:last-child { display: none; }
   .view-switch { top: max(4.9rem, calc(env(safe-area-inset-top) + 4.9rem)); width: calc(100vw - 1.5rem); }
   .view-switch button { flex: 1; }
-  .inspect-panel {
-    right: max(0.75rem, env(safe-area-inset-right));
-    bottom: max(4rem, calc(env(safe-area-inset-bottom) + 4rem));
-    grid-template-columns: 1fr 1fr;
-  }
-  .field { grid-column: 1 / -1; }
   .readout { left: max(0.75rem, env(safe-area-inset-left)); justify-content: space-between; }
 }
 
