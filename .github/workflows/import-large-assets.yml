@@ -1,0 +1,43 @@
+name: Import verified large assets
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch source-locked assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://taste-trap-material-lab.dclarke1005.chatgpt.site"
+          mkdir -p assets vendor/three/build
+          curl --fail --location --retry 4 "$base/assets/FPSPlayer.glb" -o assets/FPSPlayer.glb
+          curl --fail --location --retry 4 "$base/assets/fps-arms-basecolor.png" -o assets/fps-arms-basecolor.png
+          curl --fail --location --retry 4 "$base/assets/fps-arms-metallic.png" -o assets/fps-arms-metallic.png
+          curl --fail --location --retry 4 "$base/assets/fps-arms-normal.png" -o assets/fps-arms-normal.png
+          curl --fail --location --retry 4 "$base/assets/fps-arms-roughness.png" -o assets/fps-arms-roughness.png
+          curl --fail --location --retry 4 "$base/vendor/three/build/three.core.js" -o vendor/three/build/three.core.js
+          sha256sum --check <<'EOF'
+          e3cd9a6a1a18dc2f606d39c46fea4ecdc88b983f5bc4538ef164d4bf5efee20c  assets/FPSPlayer.glb
+          deffe6a8ae246693bd0cc657f8f2bf94b243d89a847f05874576723f32257dbf  assets/fps-arms-basecolor.png
+          8497b21fca6d3dd1bd31b61fd555688e8b23b6eddf4efdb46ae4eb5fc96dec16  assets/fps-arms-metallic.png
+          d9eb074ddc8b96a3bb6b184b91ab6accb9d4225274ac142c0713c8499b75798a  assets/fps-arms-normal.png
+          f52c41acd17d1126e78ece509e13e8e1d22740e9bf38f747ab75f39e6a7c2e53  assets/fps-arms-roughness.png
+          368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3  vendor/three/build/three.core.js
+          EOF
+      - name: Commit imported assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Home Center Fortress"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets vendor/three/build/three.core.js
+          git diff --cached --quiet && exit 0
+          git commit -m "Import verified model and texture assets"
+          git push
