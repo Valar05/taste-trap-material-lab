@@ -12,7 +12,21 @@ Current scope is deliberately small:
 
 No mesh surgery, reweighting, procedural material generation, Painter round-trip, or tessellation is implemented yet. Those are later layers, after the base model view is accepted.
 
-## Run locally
+## Run on the phone
+
+This project is intentionally phone-local. It does not require GitHub Pages.
+
+From a Termux checkout:
+
+```sh
+sh tools/phone-local-start.sh
+```
+
+Then open `http://127.0.0.1:4173/` in the phone browser. The launcher uses a
+dedicated tmux session when tmux is installed, otherwise it uses a bounded
+background process under `~/.local/state/taste-trap-material-lab`.
+
+## Run on another local machine
 
 Serve the repository root over HTTP and open `index.html`. ES modules and the GLB loader will not work reliably from a `file://` URL.
 
@@ -27,4 +41,3 @@ Then open `http://localhost:4173/`.
 ## Lineage
 
 The viewport behavior is extracted from the useful viewing parts of Pose Lab: capped pixel density, touch-friendly damped orbit, model-aware framing, donor PBR-map transfer, and first-person camera attachment. Animation authoring and pose-editing systems are intentionally excluded.
-
