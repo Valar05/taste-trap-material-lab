@@ -112,6 +112,15 @@ def nearest_material(rgb):
     )
 
 
+def linear_to_srgb_byte(value):
+    value = max(0.0, min(1.0, value))
+    if value <= 0.0031308:
+        encoded = 12.92 * value
+    else:
+        encoded = 1.055 * (value ** (1.0 / 2.4)) - 0.055
+    return max(0, min(255, round(encoded * 255)))
+
+
 def build_orm_from_accepted_albedo():
     albedo = next(
         (image for image in bpy.data.images if "FPSPlayer_ARIES_Albedo_v5_1" in image.name),
@@ -131,7 +140,9 @@ def build_orm_from_accepted_albedo():
     counts = {name: 0 for name in (*PALETTE.keys(), "unused")}
     for pixel in range(width * height):
         offset = pixel * 4
-        rgb = tuple(max(0, min(255, round(source[offset + channel] * 255))) for channel in range(3))
+        # Blender exposes color-managed image pixels in scene-linear space. The
+        # accepted authored palette is expressed in ordinary sRGB bytes.
+        rgb = tuple(linear_to_srgb_byte(source[offset + channel]) for channel in range(3))
         material = cache.get(rgb)
         if material is None:
             material = nearest_material(rgb)
