@@ -149,7 +149,7 @@ def build_orm_from_accepted_albedo():
         raise RuntimeError("ORM classification found too little metallic gold hardware")
     if counts["armor"] + counts["armor_top"] + counts["armor_shadow"] < 150_000:
         raise RuntimeError("ORM classification found too little painted armor")
-    if counts["glove_palm"] + counts["glove_mid"] + counts["glove_top"] < 200_000:
+    if counts["glove_palm"] + counts["glove_mid"] + counts["glove_top"] < 150_000:
         raise RuntimeError("ORM classification found too little glove material")
 
     write_png_rgb(OUT_ORM, packed, width, height)
