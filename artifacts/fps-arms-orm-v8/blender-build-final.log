@@ -1,0 +1,14 @@
+proot warning: can't sanitize binding "/proc/self/fd/1": No such file or directory
+proot warning: can't sanitize binding "/proc/self/fd/2": No such file or directory
+semantic_counts_preflight {"armor": 24805, "armor_shadow": 24434, "armor_top": 184455, "boot": 6408, "cuff": 7718, "cuff_shadow": 4699, "glove_mid": 22475, "glove_palm": 131316, "glove_top": 8284, "knuckle": 5976, "leg": 8299, "trim": 22903, "undersuit": 252265, "unused": 340517, "utility": 2924, "warning_red": 1098}
+Info: Saved "FPSPlayer_ARIES_ORM_v8.blend"
+FPS_ARIES_ORM_V8_OK
+materials_bound 2
+semantic_counts {"armor": 24805, "armor_shadow": 24434, "armor_top": 184455, "boot": 6408, "cuff": 7718, "cuff_shadow": 4699, "glove_mid": 22475, "glove_palm": 131316, "glove_top": 8284, "knuckle": 5976, "leg": 8299, "trim": 22903, "undersuit": 252265, "unused": 340517, "utility": 2924, "warning_red": 1098}
+orm /storage/emulated/0/Download/FPSPlayer_ARIES_ORM_v8.png 56134 19ccd374ccc2c62af219fc4177946b3667cf7b5bf560c1ad8df1feaf2aa54bed
+blend /storage/emulated/0/Download/FPSPlayer_ARIES_ORM_v8.blend 1995610 6b34374b9b97dab79717d5491d89ab071d3f293120d64bd58e960ce992a648b1
+glb /storage/emulated/0/Download/FPSPlayer_ARIES_ORM_v8_runtime.glb 3137496 0360bcac731882f20ae39b8e7869251263b6836de175ec701e003949d9e26089
+Blender 4.3.2
+Read blend: "/storage/emulated/0/Download/FPSPlayer_ARIES_Plates_v7_2.blend"
+
+Blender quit
